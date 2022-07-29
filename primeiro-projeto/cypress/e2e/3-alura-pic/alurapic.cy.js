@@ -9,12 +9,11 @@ describe('alura busca cursos', () => {
         cy.contains('button', 'Register').click();
         cy.contains('ap-vmessage', 'Email is required!').should('be.visible');
         cy.contains('button', 'Register').click();
-        cy.contains('ap-vmessage', 'Full name is required!').should('be.visible');
-        cy.contains('ap-vmessage', 'User name is required!').should('be.visible');
+        cy.contains('ap-vmessage', 'Nome is required!').should('be.visible');
+        cy.contains('ap-vmessage', 'Usuario required!').should('be.visible');
         cy.contains('ap-vmessage', 'Password is required!').should('be.visible');
 
     })
-
     
     it('verifica mensagens de email invalido', () => {
         cy.contains('a', 'Register now').click();
@@ -67,6 +66,23 @@ describe('alura busca cursos', () => {
         cy.contains('button', 'Register').click();
         cy.contains('small', 'User available').should('be.visible');
 
+    })
+
+    it.only('fazer login de usuario valido', () => {
+        cy.get('input[formcontrolname="userName"]').type('flavio');
+        cy.get('input[formcontrolname="password"]').type('123');
+        cy.get('button[type="submit"]').click();
+        cy.contains('a', '(Logout)').should('be.visible');
+    })
+
+    
+    it.only('fazer login de usuario invalido', () => {
+        cy.get('input[formcontrolname="userName"]').type('jacqueline');
+        cy.get('input[formcontrolname="password"]').type('1234');
+        cy.get('button[type="submit"]').click();
+        cy.on('window:alert', (str) => {
+            expect(str).to.equal('Invalid user name or password')
+        })
     })
 
 })
